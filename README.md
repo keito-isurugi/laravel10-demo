@@ -50,3 +50,4 @@ $ npm install
 // migration、seederを実行
 php artisan migrate --seeder
 ```
+a
