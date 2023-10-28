@@ -9,7 +9,7 @@ $ docker compose up -d
 - Laravelインストール
 ```.shell
 # コンテナに入る
-$ docker compose exec laravel10-demo-app bash
+$ docker compose exec laravel10-demo-app bash # /docker/mysqlディレクトリを作成しなければいけないかも
 
 # 以下コンテナ内で実行
 # サブフォルダを作ってそこにLaravelをインストール
@@ -50,4 +50,3 @@ $ npm install
 // migration、seederを実行
 php artisan migrate --seeder
 ```
-a
