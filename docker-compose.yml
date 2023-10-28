@@ -7,7 +7,7 @@ services:
     depends_on:
       - laravel10-demo-app
     ports:
-      - 8088:80
+      - ${APP_PORTS}:80
     volumes:
       - ./:/src
 
@@ -18,7 +18,7 @@ services:
     depends_on:
       - laravel10-demo-mysql
     ports:
-      - 5173:5173
+      - ${VITE_PORTS}:5173
     volumes:
       - ./:/src
       - /src/node_modules
@@ -32,12 +32,12 @@ services:
     volumes:
       - ./docker/mysql:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=laravel10-demo
-      - MYSQL_USER=test
-      - MYSQL_PASSWORD=testtest
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
-      - 3306:3306
+      - ${DB_PORT}:3306
 
   laravel10-demo-phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -45,12 +45,12 @@ services:
     depends_on:
       - laravel10-demo-mysql
     environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOSTS=laravel10-demo-mysql
-      - PMA_USER=test
-      - PMA_PASSWORD=testtest
+      PMA_ARBITRARY: 1
+      PMA_HOSTS: ${DB_HOST}
+      PMA_USER: ${DB_USERNAME}
+      PMA_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "7088:80"
+      - ${PMA_PORTS}:80
     volumes:
       - ./docker/phpmyadmin/sessions:/sessions
       
@@ -58,4 +58,4 @@ services:
     image: redis:alpine
     container_name: "laravel10-demo-redis"
     ports:
-      - 16379:6379
+      - ${REDIS_PORT}:6379

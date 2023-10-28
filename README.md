@@ -34,7 +34,3 @@ $ chmod -R guo+w storage
 # storageのシンボリックリンクを設置
 $ php artisan storage:link
 ```
-
-## TODO
-- .envファイルで定義されたものをdocker-compose.ymlで使う
-- seedファイル作成
