@@ -1,0 +1,61 @@
+version: '3'
+services:
+  laravel10-demo-nginx:
+    container_name: "laravel10-demo-nginx"
+    build:
+      context: ./docker/nginx
+    depends_on:
+      - laravel10-demo-app
+    ports:
+      - 8088:80
+    volumes:
+      - ./:/src
+
+  laravel10-demo-app:
+    container_name: "laravel10-demo-app"
+    build:
+      context: ./docker/php
+    depends_on:
+      - laravel10-demo-mysql
+    ports:
+      - 5173:5173
+    volumes:
+      - ./:/src
+      - /src/node_modules
+      - /src/vendor
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+
+  laravel10-demo-mysql:
+    image: mysql:8.0.33
+    command: --max_allowed_packet=32505856
+    container_name: "laravel10-demo-mysql"
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=laravel10-demo
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=testtest
+    ports:
+      - 3306:3306
+
+  laravel10-demo-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: "laravel10-demo-phpmyadmin"
+    depends_on:
+      - laravel10-demo-mysql
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=laravel10-demo-mysql
+      - PMA_USER=test
+      - PMA_PASSWORD=testtest
+    ports:
+      - "7088:80"
+    volumes:
+      - ./docker/phpmyadmin/sessions:/sessions
+      
+  laravel10-demo-redis:
+    image: redis:alpine
+    container_name: "laravel10-demo-redis"
+    ports:
+      - 16379:6379
